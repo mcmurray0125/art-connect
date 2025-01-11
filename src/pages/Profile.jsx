@@ -50,9 +50,9 @@ const Profile = () => {
       </div>
 
       {/* Profile Row */}
-      <div style={{ display: "flex", alignItems: "center", padding: "16px" }}>
+      <div className="d-flex align-items-center gap-3">
         {/* Left: Profile Photo and Follower Info */}
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <div className="d-flex align-items-center gap-3">
           {/* Profile Photo */}
           <img
             src={currentUser.photoURL}
@@ -67,10 +67,10 @@ const Profile = () => {
           />
           {/* Follower Info */}
           <div>
-            <p style={{ margin: "0", fontWeight: "bold" }}>
+            <p className="m-0">
               {userData.followers?.length || 0} Followers
             </p>
-            <div style={{ display: "flex", gap: "4px", marginTop: "4px" }}>
+            <div className="d-flex gap-1 mt-1">
               {userData.followers?.slice(0, 10).map((follower, index) => (
                 <img
                   key={index}
@@ -90,31 +90,9 @@ const Profile = () => {
         </div>
 
         {/* Right: Buttons */}
-        <div style={{ marginLeft: "auto", display: "flex", gap: "8px" }}>
-          <button
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#007BFF",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
-            Edit Profile
-          </button>
-          <button
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#28A745",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
-            Add to Story
-          </button>
+        <div className="profile-header ms-auto d-flex gap-2">
+          <Button>Edit Profile</Button>
+          <Button>Add to Story</Button>
         </div>
       </div>
     </Container>
