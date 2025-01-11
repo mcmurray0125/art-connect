@@ -1,0 +1,27 @@
+.navbar-collapse.show,
+.navbar-collapse.collapsing {
+    position: absolute;
+    top: 64px;
+    left: 5%;
+    width: 90vw;
+    background-color: grey;
+}
+
+.nav-icon {
+    font-size: 24px;
+}
+
+.navbar {
+    .dropdown-item {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .center-links {
+        width: clamp(50px, 100px, 120px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
