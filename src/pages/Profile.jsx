@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
+import { Container, Button } from "react-bootstrap";
+
+import "../styles/profile.scss";
 
 const Profile = () => {
   const { userId } = useParams();
@@ -35,17 +38,16 @@ const Profile = () => {
   if (!userData) return <p>User not found</p>;
 
   return (
-    <div>
+    <Container>
       {/* Cover Photo */}
-      <div
-        style={{
-          backgroundImage: `url(${userData.coverPhoto || "/default-cover.jpg"})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "200px",
-          width: "100%",
-        }}
-      ></div>
+      <div id="cover">
+        <Button className="edit-cover-photo"><i className="fa-solid fa-camera"></i> Edit Cover Photo</Button>
+        <img
+          id="cover-photo"
+          src={userData.coverPhoto || "src/assets/cover-photos/cover-1.jpg"}
+          alt="Cover Photo"
+        />
+      </div>
 
       {/* Profile Row */}
       <div style={{ display: "flex", alignItems: "center", padding: "16px" }}>
@@ -115,7 +117,7 @@ const Profile = () => {
           </button>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

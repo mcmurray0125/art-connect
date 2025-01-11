@@ -1,0 +1,16 @@
+#cover {
+    height: 430px;
+    position: relative;
+
+    #cover-photo {
+        object-fit: cover;
+        object-position: center center;
+        height: 100%;
+        width: 100%;
+    }
+    .edit-cover-photo {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+    }
+}
