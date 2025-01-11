@@ -20,7 +20,7 @@ const Profile = () => {
         const userDoc = await getDoc(doc(db, "users", userId));
         if (userDoc.exists()) {
           setUserData(userDoc.data());
-          console.log(currentUser);
+          console.log(userDoc.data());
         } else {
           console.error("User not found");
         }
@@ -67,9 +67,8 @@ const Profile = () => {
           />
           {/* Follower Info */}
           <div>
-            <p className="m-0">
-              {userData.followers?.length || 0} Followers
-            </p>
+            <h2 className="m-0">{userData.displayName}</h2>
+            <p className="m-0">{userData.followers?.length || 0} Followers</p>
             <div className="d-flex gap-1 mt-1">
               {userData.followers?.slice(0, 10).map((follower, index) => (
                 <img
