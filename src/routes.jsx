@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import PrivateRoute from "./pages/PrivateRoute";
 import Register from "./pages/Register";
+import AboutMe from "./components/profile/AboutMe";
 
 const routes = [
   {
@@ -25,6 +26,12 @@ const routes = [
         path: "/:userId",
         name: "Profile",
         element: <Profile />,
+        children: [
+          {
+            path: "about-me",
+            element: <AboutMe />,
+          },
+        ],
       },
       {
         path: "/register",

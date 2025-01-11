@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Nav } from "react-bootstrap";
 
 import "../styles/profile.scss";
 
@@ -50,7 +50,7 @@ const Profile = () => {
       </div>
 
       {/* Profile Row */}
-      <div className="d-flex align-items-center gap-3">
+      <div className="profile-header d-flex align-items-center gap-3">
         {/* Left: Profile Photo and Follower Info */}
         <div className="d-flex align-items-center gap-3">
           {/* Profile Photo */}
@@ -89,10 +89,17 @@ const Profile = () => {
         </div>
 
         {/* Right: Buttons */}
-        <div className="profile-header ms-auto d-flex gap-2">
+        <div className="profile-header-buttons ms-auto d-flex gap-2">
           <Button>Edit Profile</Button>
           <Button>Add to Story</Button>
         </div>
+      </div>
+      <div className="profile-links">
+        <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid}>Posts</Nav.Link>
+        <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/about-me'}>About</Nav.Link>
+        <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/projects'}>Projects</Nav.Link>
+        <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/photos'}>Photos</Nav.Link>
+        <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/videos'}>Videos</Nav.Link>
       </div>
     </Container>
   );
