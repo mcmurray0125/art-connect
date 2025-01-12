@@ -33,11 +33,6 @@ const routes = [
           },
         ],
       },
-      {
-        path: "/register",
-        name: "Register",
-        element: <Register />,
-      },
       //Protected Routes
       {
         path: "/settings",
@@ -51,7 +46,12 @@ const routes = [
         ],
       },
     ],
-  }
+  },
+  {
+    path: "/register",
+    name: "Register",
+    element: <Register />,
+  },
 ]
 
 const router = createBrowserRouter(routes);
