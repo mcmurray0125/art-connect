@@ -7,7 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { users } from '../data/userData';
 import { useNavigate } from 'react-router';
 
-import logo from "../../public/logo-large.png"
+import logo from "../assets/brand/logo-large.png";
 
 
 export default function Register() {

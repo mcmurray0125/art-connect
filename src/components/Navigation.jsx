@@ -1,17 +1,18 @@
 import { Image, Container, Nav, Navbar, NavDropdown, Form, FormControl } from 'react-bootstrap';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 import '../styles/navigation.scss'
-import logo from '/logo-large.png';
+import logo from '../assets/brand/logo-large.png';
 
 export default function Navigation() {
   const { logout, currentUser } = useAuth();
+  const navigate = useNavigate();
   
   async function handleLogout() {
     try {
       await logout();
-      // Replace with navigate logic for better UX if desired
+      navigate('/register'); // Navigate to /register after logout
     } catch (error) {
       console.log(error);
     }
