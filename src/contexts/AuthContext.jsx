@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, createContext } from 'react'
 import { auth, db, googleProvider } from "../firebase"
 import { doc, setDoc, getDoc } from "firebase/firestore"
 import {
@@ -12,7 +12,7 @@ import {
   updatePassword
 } from "firebase/auth";
 
-const AuthContext = React.createContext()
+const AuthContext = createContext()
 
 export function useAuth() {
     return useContext(AuthContext)

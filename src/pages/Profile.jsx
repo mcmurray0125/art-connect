@@ -6,6 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Container, Button, Nav } from "react-bootstrap";
 
 import "../styles/profile.scss";
+import NewPostCard from "../components/profile/NewPostCard";
 
 const Profile = () => {
   const { userId } = useParams();
@@ -101,6 +102,7 @@ const Profile = () => {
         <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/photos'}>Photos</Nav.Link>
         <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/videos'}>Videos</Nav.Link>
       </div>
+      <NewPostCard userData={userData} currentUser={currentUser}/>
     </Container>
   );
 };

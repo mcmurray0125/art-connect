@@ -3,15 +3,18 @@ import { useAuth } from '../contexts/AuthContext'
 import { db } from '../firebase'
 import { doc, setDoc } from "firebase/firestore";
 import { users } from '../data/userData';
+import { Container } from 'react-bootstrap';
+import NewPostCard from '../components/profile/NewPostCard';
 
 
 export default function Home() {
-  const {signup} = useAuth();
-  
+  const { currentUser } = useAuth();
+
   return (
-    <div>
+    <Container>
       Home
       <button >Add User</button>
-    </div>
+      <NewPostCard currentUser={currentUser}/>
+    </Container>
   )
 }
