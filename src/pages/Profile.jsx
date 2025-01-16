@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { Container, Button, Nav } from "react-bootstrap";
 
 import "../styles/profile.scss";
 import NewPostCard from "../components/profile/NewPostCard";
+import Post from "../components/Post";
 
 const Profile = () => {
   const { userId } = useParams();
   const { currentUser } = useAuth();
   const [userData, setUserData] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,6 +24,12 @@ const Profile = () => {
         if (userDoc.exists()) {
           setUserData(userDoc.data());
           console.log(userDoc.data());
+
+          // Fetch posts from the user's subcollection
+          const postsCollectionRef = collection(db, "users", userId, "posts");
+          const postsSnapshot = await getDocs(postsCollectionRef);
+          const postsList = postsSnapshot.docs.map(doc => doc.data());
+          setPosts(postsList);
         } else {
           console.error("User not found");
         }
@@ -103,6 +111,11 @@ const Profile = () => {
         <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/videos'}>Videos</Nav.Link>
       </div>
       <NewPostCard userData={userData} currentUser={currentUser}/>
+      <div className="posts">
+        {posts.map((post, index) => (
+          <Post key={index} post={post} className="post" />
+        ))}
+      </div>
     </Container>
   );
 };

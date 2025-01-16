@@ -1,27 +1,41 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import moment from 'moment';
+import { getAuthorDetails } from '../helpers/firebaseHelpers';
 
-export default function MemoryCard ( {memory} ) {
+export default function Post ( { post } ) {
+  const [authorDetails, setAuthorDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchAuthorDetails = async () => {
+      const authorData = await getAuthorDetails(post.authorId);
+      setAuthorDetails(authorData);
+    };
+
+    fetchAuthorDetails();
+  }, [post.authorId]);
   
-  const formattedDate = moment(memory.date).format("MMMM Do, YYYY");
+  const formattedPostDate = moment(Number(post.date)).format("MMMM Do, YYYY");
 
   return (
-    <Card className='memory-card'>
-      <Link to={`/memory/${memory.id}`} state={{data: memory}} >
-        {memory.coverPhoto.length ? 
-        <Card.Img src={memory.coverPhoto}/>
-        :
-        <div className='card-img' style={{background: 'linear-gradient(to right,#56efea,#d6cb81)', height: '300px'}}></div>
-        }
-        <Card.ImgOverlay className='p-0'>
-          <div className='px-3 pb-2 d-flex justify-content-between w-100 align-items-baseline'>
-            <Card.Title>{memory.title}</Card.Title>
-            <Card.Text className='text-nowrap'>{formattedDate}</Card.Text>
-          </div>
-        </Card.ImgOverlay>
-      </Link>
+    <Card className='post'>
+      <Card.Header>
+        {authorDetails ? (
+          <>
+            <img src={authorDetails.profileImage} alt={authorDetails.name} style={{ width: '30px', borderRadius: '50%', marginRight: '10px' }} />
+            {authorDetails.name}
+          </>
+        ) : (
+          'Loading...'
+        )}
+        <div>{formattedPostDate}</div>
+      </Card.Header>
+      <Card.Body>
+        <p>{post.description}</p>
+        {post.images && post.images.map((image, index) => (
+          <Card.Img key={index} src={image} alt={`Post image ${index + 1}`} />
+        ))}
+      </Card.Body>
     </Card>
   )
 }

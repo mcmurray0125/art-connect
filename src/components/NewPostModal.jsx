@@ -7,8 +7,6 @@ import { useAuth } from '../contexts/AuthContext';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Spinner from './Spinner';
 
@@ -39,6 +37,7 @@ function NewPostModal({ show, handleClose }) {
         titleRef.current.value,
         Date.now().toString(),
         descriptionRef.current.value,
+        currentUser.uid
       );
 
       const storage = getStorage();
@@ -105,7 +104,7 @@ function NewPostModal({ show, handleClose }) {
           <Modal.Body>
             <Form.Group className="mb-3" controlId="newMemory.Name">
               <Form.Label>Title</Form.Label>
-              <Form.Control type="text" ref={titleRef} placeholder="Memory Name" autoFocus required />
+              <Form.Control type="text" ref={titleRef} placeholder="Title" autoFocus required />
             </Form.Group>
             <Form.Group className="mb-3" controlId="newMemory.Description">
               <Form.Label>Description</Form.Label>
