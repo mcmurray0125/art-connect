@@ -3,7 +3,7 @@ import { NavLink, useParams } from "react-router-dom";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
-import { Container, Button, Nav } from "react-bootstrap";
+import { Container, Button, Nav, Image } from "react-bootstrap";
 
 import "../styles/profile.scss";
 import NewPostCard from "../components/profile/NewPostCard";
@@ -63,16 +63,7 @@ const Profile = () => {
         {/* Left: Profile Photo and Follower Info */}
         <div className="d-flex align-items-center gap-3">
           {/* Profile Photo */}
-          <img
-            src={currentUser.photoURL}
-            alt="Profile"
-            style={{
-              width: "80px",
-              height: "80px",
-              borderRadius: "50%",
-              border: "2px solid white",
-              objectFit: "cover",
-            }}
+          <Image src={userData.profileImageLarge} alt="Profile Image" className="profile-image"
           />
           {/* Follower Info */}
           <div>
@@ -80,17 +71,11 @@ const Profile = () => {
             <p className="m-0">{userData.followers?.length || 0} Followers</p>
             <div className="d-flex gap-1 mt-1">
               {userData.followers?.slice(0, 10).map((follower, index) => (
-                <img
+                <Image
+                  className="follower-image"
                   key={index}
                   src={follower.profilePhoto || "/default-avatar.jpg"}
                   alt={`Follower ${index + 1}`}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    border: "1px solid #ccc",
-                  }}
                 />
               ))}
             </div>
@@ -98,12 +83,12 @@ const Profile = () => {
         </div>
 
         {/* Right: Buttons */}
-        <div className="profile-header-buttons ms-auto d-flex gap-2">
+        <div className="profile-header-buttons ms-auto mb-3 d-flex gap-2">
           <Button>Edit Profile</Button>
           <Button>Add to Story</Button>
         </div>
       </div>
-      <div className="profile-links">
+      <div className="profile-links my-3">
         <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid}>Posts</Nav.Link>
         <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/about-me'}>About</Nav.Link>
         <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/projects'}>Projects</Nav.Link>
@@ -111,9 +96,9 @@ const Profile = () => {
         <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/videos'}>Videos</Nav.Link>
       </div>
       <NewPostCard userData={userData} currentUser={currentUser}/>
-      <div className="posts">
+      <div className="posts mt-3">
         {posts.map((post, index) => (
-          <Post key={index} post={post} className="post" />
+          <Post key={index} post={post} />
         ))}
       </div>
     </Container>

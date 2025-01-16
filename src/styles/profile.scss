@@ -22,3 +22,18 @@
         padding: 0 1rem;
     }
 }
+
+.profile-header {
+    .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .follower-image {
+        width: "30px";
+        height: "30px";
+        border-radius: "50%";
+        object-fit: "cover";
+    }
+}

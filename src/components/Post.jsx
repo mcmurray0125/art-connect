@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card } from 'react-bootstrap'
+import { Card, Image } from 'react-bootstrap'
 import moment from 'moment';
 import { getAuthorDetails } from '../helpers/firebaseHelpers';
 
@@ -22,7 +22,7 @@ export default function Post ( { post } ) {
       <Card.Header>
         {authorDetails ? (
           <>
-            <img src={authorDetails.profileImage} alt={authorDetails.name} style={{ width: '30px', borderRadius: '50%', marginRight: '10px' }} />
+            <Image roundedCircle src={authorDetails.profileImage} alt={authorDetails.name} className='user-image-small me-2' />
             {authorDetails.name}
           </>
         ) : (
