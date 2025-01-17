@@ -20,7 +20,7 @@ export default function Navigation() {
 
   return (
     <>
-      <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+      <Navbar sticky='top' collapseOnSelect expand="lg" className="bg-body-tertiary">
         <Container fluid>
           {/* Left Section */}
           <div className="d-flex flex-1 align-items-center gap-3">
