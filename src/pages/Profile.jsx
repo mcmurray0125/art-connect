@@ -8,6 +8,7 @@ import { Container, Button, Nav, Image } from "react-bootstrap";
 import "../styles/profile.scss";
 import NewPostCard from "../components/profile/NewPostCard";
 import Post from "../components/Post";
+import NewPostModal from "../components/NewPostModal";
 
 const Profile = () => {
   const { userId } = useParams();
@@ -15,6 +16,10 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -95,12 +100,13 @@ const Profile = () => {
         <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/photos'}>Photos</Nav.Link>
         <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/videos'}>Videos</Nav.Link>
       </div>
-      <NewPostCard userData={userData} currentUser={currentUser}/>
+      <NewPostCard userData={userData} currentUser={currentUser} onShowModal={handleShowModal}/>
       <div className="posts mt-3">
         {posts.map((post, index) => (
           <Post key={index} post={post} />
         ))}
       </div>
+      <NewPostModal show={showModal} handleClose={handleCloseModal} />
     </Container>
   );
 };
