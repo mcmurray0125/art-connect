@@ -1,58 +1,62 @@
 import { createBrowserRouter } from "react-router-dom";
 
-// Layouts
-import General from "./layouts/General";
-
 // Pages
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
-import PrivateRoute from "./pages/PrivateRoute";
+import AuthWrapper from "./pages/AuthWrapper";
 import Register from "./pages/Register";
 import AboutMe from "./components/profile/AboutMe";
 
+// Components
+import ProtectedRoute from './components/ProtectedRoute';
+
 const routes = [
   {
-    path: "/",
-    routeName: "general",
-    element: <General />,
+    path: '/',
+    element: <AuthWrapper />,
     children: [
       {
-        path: "/",
-        name: "Home",
-        element: <Home />,
+        path: '/',
+        name: 'Home',
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
       {
-        path: "/:userId",
-        name: "Profile",
-        element: <Profile />,
+        path: '/:userId',
+        name: 'Profile',
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
         children: [
           {
-            path: "about-me",
+            path: 'about-me',
             element: <AboutMe />,
           },
         ],
       },
-      //Protected Routes
       {
-        path: "/settings",
-        name: "Settings",
-        element: <PrivateRoute />,
-        children: [
-          {
-            path: "",
-            element: <Settings />,
-          },
-        ],
+        path: '/settings',
+        name: 'Settings',
+        element: (
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
   {
-    path: "/register",
-    name: "Register",
+    path: '/register',
+    name: 'Register',
     element: <Register />,
   },
-]
+];
 
 const router = createBrowserRouter(routes);
 
