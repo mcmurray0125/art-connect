@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router';
 import logo from '../assets/brand/logo-large.png';
-import '../styles/register.scss';
+import '../styles/login.scss';
 
-export default function Register() {
+export default function Login() {
   const { loginGoogle, loginDemo } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -20,7 +20,7 @@ export default function Register() {
       await loginGoogle();
       navigate('/');
     } catch (error) {
-      setError('Failed to create an account');
+      setError('Failed to log in');
       console.log(error);
     }
     setLoading(false);
@@ -35,49 +35,29 @@ export default function Register() {
       await loginDemo();
       navigate('/');
     } catch (error) {
-      setError('Failed to create an account');
+      setError('Failed to log in');
       console.log(error);
     }
     setLoading(false);
   }
 
   return (
-    <Container fluid className='register-page d-flex align-items-center justify-content-center'>
+    <Container fluid className='login-page d-flex align-items-center justify-content-center'>
       <Row className='w-100'>
         <Col md={{ span: 6, offset: 3 }} className='d-flex flex-column align-items-center justify-content-center'>
           <img src={logo} alt="Craftor Logo" className='mb-4 brand-image' />
-          <h2 className='mb-4'>Sign up to join the artistic community of Craftor.</h2>
+          <h2 className='mb-4'>Sign in to Craftor</h2>
           <Form className='w-75'>
-            <Form.Group controlId="firstName" className='mb-3'>
-              <Form.Label>First Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your first name" />
-            </Form.Group>
-            <Form.Group controlId="lastName" className='mb-3'>
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your last name" />
-            </Form.Group>
-            <Form.Group controlId="birthday" className='mb-3'>
-              <Form.Label>Birthday</Form.Label>
-              <Form.Control type="date" />
-            </Form.Group>
-            <Form.Group controlId="gender" className='mb-3'>
-              <Form.Label>Gender</Form.Label>
-              <Form.Control as="select">
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="email" className='mb-3'>
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Enter your email" />
+            <Form.Group controlId="username" className='mb-3'>
+              <Form.Label>Username</Form.Label>
+              <Form.Control type="text" placeholder="Enter your username" />
             </Form.Group>
             <Form.Group controlId="password" className='mb-3'>
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Enter your password" />
             </Form.Group>
             <Button variant="primary" type="submit" className='w-100 mb-3' disabled={loading}>
-              Register
+              Login
             </Button>
             <Button variant="outline-primary" className='w-100 mb-3' onClick={handleGoogleLogin} disabled={loading}>
               Sign in with Google <i className="fa-brands fa-google"></i>

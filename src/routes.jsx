@@ -6,10 +6,12 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import AuthWrapper from "./pages/AuthWrapper";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
 import AboutMe from "./components/profile/AboutMe";
 
 // Components
 import ProtectedRoute from './components/ProtectedRoute';
+import GuestRoute from './components/GuestRoute';
 
 const routes = [
   {
@@ -52,9 +54,20 @@ const routes = [
     ],
   },
   {
+    path: '/login',
+    element: (
+      <GuestRoute>
+        <Login />
+      </GuestRoute>
+    ),
+  },
+  {
     path: '/register',
-    name: 'Register',
-    element: <Register />,
+    element: (
+      <GuestRoute>
+        <Register />
+      </GuestRoute>
+    ),
   },
 ];
 
