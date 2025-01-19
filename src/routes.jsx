@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 // Pages
 import Home from "./pages/Home";
-import Profile from "./pages/Profile";
+import ProfileRoute from "./components/ProfileRoute";
 import Settings from "./pages/Settings";
 import AuthWrapper from "./pages/AuthWrapper";
 import Register from "./pages/Register";
@@ -29,11 +29,9 @@ const routes = [
       },
       {
         path: '/:userId',
-        name: 'Profile',
+        name: 'ProfileRoute',
         element: (
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
+          <ProfileRoute />
         ),
         children: [
           {
