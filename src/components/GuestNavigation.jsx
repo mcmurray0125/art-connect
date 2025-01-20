@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Navbar, Nav, Form, Button, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import googleIconWhite from '../assets/icons/google-icon-white.svg';
 
 import logo from '../assets/brand/logo-large.png';
 
@@ -31,7 +32,7 @@ const GuestNavigation = () => {
   };
 
   return (
-    <Navbar bg="light" expand="lg" className="px-3">
+    <Navbar bg="light" expand="lg" className="px-3 guest-navbar">
       <Navbar.Brand href="/" className="fw-bold">
         <Image height={40} src={logo} className='me-3' />
         Craftor
@@ -56,8 +57,8 @@ const GuestNavigation = () => {
             required
           />
           <Button type="submit" variant="primary" className="me-2">Login</Button>
-          <Button variant="outline-secondary" onClick={handleGoogleSignIn}>
-            <i className="fa-brands fa-google"></i>
+          <Button onClick={handleGoogleSignIn} aria-label='Continue with Google' className='border-0 p-0'>
+            <img src={googleIconWhite} alt="Google Icon" />
           </Button>
         </Form>
       </Navbar.Collapse>
