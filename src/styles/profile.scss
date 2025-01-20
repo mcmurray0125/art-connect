@@ -5,13 +5,14 @@
     #cover-photo {
         object-fit: cover;
         object-position: center center;
-        height: 100%;
+        height: calc(100% + 50px);
         width: 100%;
     }
     .edit-cover-photo {
         position: absolute;
-        bottom: 1rem;
+        bottom: calc(1rem - 50px);
         right: 1rem;
+        z-index: 3;
     }
 }
 
@@ -24,6 +25,11 @@
 }
 
 .profile-header {
+    position: relative;
+    backdrop-filter: blur(1px);
+    padding: 1rem;
+    z-index: 2;
+
     .profile-image {
         width: 150px;
         height: 150px;
