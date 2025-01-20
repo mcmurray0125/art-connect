@@ -35,6 +35,7 @@ const MyProfile = () => {
           const postsSnapshot = await getDocs(postsCollectionRef);
           const postsList = postsSnapshot.docs.map(doc => doc.data());
           setPosts(postsList);
+          console.log(posts);
         } else {
           console.error("User not found");
         }
@@ -102,7 +103,7 @@ const MyProfile = () => {
       </div>
       <NewPostCard userData={userData} currentUser={currentUser} onShowModal={handleShowModal}/>
       <div className="posts mt-3">
-        {posts.map((post, index) => (
+        {posts > 0 && posts.map((post, index) => (
           <Post key={index} post={post} />
         ))}
       </div>

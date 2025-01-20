@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, createContext } from 'react'
 import { auth, db, googleProvider } from "../firebase"
-import { doc, setDoc, getDoc } from "firebase/firestore"
+import { doc, setDoc, getDoc, collection } from "firebase/firestore"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -55,13 +55,8 @@ export function AuthProvider({ children }) {
     // Watch for Authentication State Changes
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged(async (user) => {
-        setCurrentUser(user);
-        setLoading(false);
-
         if (user) {
           const userDocRef = doc(db, "users", user.uid);
-
-          // Check if the user document exists
           try {
             const userDocSnap = await getDoc(userDocRef);
             if (!userDocSnap.exists()) {
@@ -73,16 +68,26 @@ export function AuthProvider({ children }) {
                 createdAt: new Date().toISOString(),
                 profileImage: null,
                 bio: "",
-                saved: [],
-                posts: [],
-                followers: [],
-                following: [],
               });
+  
+              // Create subcollections for posts, followers, and following
+              const postsCollectionRef = collection(db, "users", user.uid, "posts");
+              const followersCollectionRef = collection(db, "users", user.uid, "followers");
+              const followingCollectionRef = collection(db, "users", user.uid, "following");
+  
+              // Initialize subcollections with empty documents
+              await setDoc(doc(postsCollectionRef, "init"), {});
+              await setDoc(doc(followersCollectionRef, "init"), {});
+              await setDoc(doc(followingCollectionRef, "init"), {});
             }
           } catch (error) {
-            console.error("Error setting user document:", error);
+            console.error("Error creating user document:", error);
           }
+          setCurrentUser(user);
+        } else {
+          setCurrentUser(null);
         }
+        setLoading(false);
       });
 
       return () => unsubscribe(); // Cleanup on unmount
