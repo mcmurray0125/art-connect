@@ -65,17 +65,17 @@ const Profile = () => {
             />
           </div>
           {/* Profile Row */}
-          <div className="profile-header d-flex align-items-center gap-3">
+          <div className="profile-header d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-between gap-3">
             {/* Left: Profile Photo and Follower Info */}
-            <div className="d-flex align-items-center gap-3">
+            <div className="d-flex flex-column flex-md-row align-items-center gap-3">
               {/* Profile Photo */}
               <Image src={userData.profileImageLarge} alt="Profile Image" className="profile-image"
               />
               {/* Follower Info */}
-              <div>
+              <div className="d-flex flex-column align-items-center align-items-md-start">
                 <h2 className="m-0">{userData.displayName}</h2>
                 <p className="m-0">{userData.followers?.length || 0} Followers</p>
-                <div className="d-flex gap-1 mt-1">
+                <div className="d-flex gap-1">
                   {userData.followers?.slice(0, 10).map((follower, index) => (
                     <Image
                       className="follower-image"
@@ -88,7 +88,7 @@ const Profile = () => {
               </div>
             </div>
             {/* Right: Buttons */}
-            <div className="profile-header-buttons ms-auto mb-3 d-flex gap-2">
+            <div className="profile-header-buttons d-flex gap-2">
               <Button>Edit Profile</Button>
               <Button>Add to Story</Button>
             </div>
