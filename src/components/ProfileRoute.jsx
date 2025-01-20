@@ -2,15 +2,18 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import MyProfile from '../pages/MyProfile'
 import Profile from '../pages/Profile';
+import GuestProfile from '../pages/GuestProfile';
 
 export default function ProfileRoute () {
   const { currentUser } = useAuth();
     const { urlUserId } = useParams();
 
   if (currentUser && currentUser.uid === urlUserId) {
-    return <MyProfile />;
+    return <MyProfile />
+  } else if (currentUser && currentUser.uid !== urlUserId) {
+    return <Profile />
   } else {
-    return <Profile />;
+    return <GuestProfile/>
   }
 
 }
