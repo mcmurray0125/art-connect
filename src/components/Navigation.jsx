@@ -1,9 +1,9 @@
 import { Image, Container, Nav, Navbar, NavDropdown, Form, FormControl } from 'react-bootstrap';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-
 import '../styles/navigation.scss'
 import logo from '../assets/brand/logo-large.png';
+import avatarIcon from '../assets/icons/avatar-icon.png';
 
 export default function Navigation() {
   const { logout, currentUser } = useAuth();
@@ -67,7 +67,8 @@ export default function Navigation() {
             <NavDropdown
               title={
                 <Image
-                  src={currentUser?.photoURL || ""}
+                  src={currentUser?.photoURL || avatarIcon}
+                  className='profile-image'
                   roundedCircle
                   height={40}
                   alt="Profile"
@@ -79,8 +80,9 @@ export default function Navigation() {
               {/* Profile Options */}
               <NavDropdown.Item as={Link} to={'/' + currentUser?.uid || 'me'} className='fw-semibold'>
                 <Image
-                    src={currentUser?.photoURL || ""}
+                    src={currentUser?.photoURL || avatarIcon}
                     roundedCircle
+                    className='profile-image'
                     height={40}
                     alt="Profile"
                   />

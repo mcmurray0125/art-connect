@@ -9,6 +9,7 @@ import "../styles/profile.scss";
 import NewPostCard from "../components/profile/NewPostCard";
 import Post from "../components/Post";
 import NewPostModal from "../components/NewPostModal";
+import avatarIcon from '../assets/icons/avatar-icon.png';
 
 const MyProfile = () => {
   const { userId } = useParams();
@@ -67,7 +68,7 @@ const MyProfile = () => {
         {/* Left: Profile Photo and Follower Info */}
         <div className="d-flex align-items-center gap-3">
           {/* Profile Photo */}
-          <Image src={userData.profileImageLarge} alt="Profile Image" className="profile-image"
+          <Image src={userData.profileImageLarge || avatarIcon} alt="Profile Image" className="profile-image"
           />
           {/* Follower Info */}
           <div>
