@@ -28,14 +28,12 @@ const MyProfile = () => {
         const userDoc = await getDoc(doc(db, "users", userId));
         if (userDoc.exists()) {
           setUserData(userDoc.data());
-          console.log(userDoc.data());
 
           // Fetch posts from the user's subcollection
           const postsCollectionRef = collection(db, "users", userId, "posts");
           const postsSnapshot = await getDocs(postsCollectionRef);
           const postsList = postsSnapshot.docs.map(doc => doc.data());
           setPosts(postsList);
-          console.log(posts);
         } else {
           console.error("User not found");
         }
@@ -103,7 +101,7 @@ const MyProfile = () => {
       </div>
       <NewPostCard userData={userData} currentUser={currentUser} onShowModal={handleShowModal}/>
       <div className="posts mt-3">
-        {posts > 0 && posts.map((post, index) => (
+        {posts.length > 0 && posts.map((post, index) => (
           <Post key={index} post={post} />
         ))}
       </div>
