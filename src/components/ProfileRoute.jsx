@@ -6,11 +6,11 @@ import GuestProfile from '../pages/GuestProfile';
 
 export default function ProfileRoute () {
   const { currentUser } = useAuth();
-    const { urlUserId } = useParams();
+    const { userId } = useParams();
 
-  if (currentUser && currentUser.uid === urlUserId) {
+  if (currentUser && currentUser.uid === userId) {
     return <MyProfile />
-  } else if (currentUser && currentUser.uid !== urlUserId) {
+  } else if (currentUser && currentUser.uid !== userId) {
     return <Profile />
   } else {
     return <GuestProfile/>
