@@ -74,11 +74,6 @@ export function AuthProvider({ children }) {
               const postsCollectionRef = collection(db, "users", user.uid, "posts");
               const followersCollectionRef = collection(db, "users", user.uid, "followers");
               const followingCollectionRef = collection(db, "users", user.uid, "following");
-  
-              // Initialize subcollections with empty documents
-              await setDoc(doc(postsCollectionRef, "init"), {});
-              await setDoc(doc(followersCollectionRef, "init"), {});
-              await setDoc(doc(followingCollectionRef, "init"), {});
             }
           } catch (error) {
             console.error("Error creating user document:", error);
