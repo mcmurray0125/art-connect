@@ -52,7 +52,7 @@ const MyProfile = () => {
   if (!userData) return <p>User not found</p>;
 
   return (
-    <Container>
+    <Container className="mb-5">
       {/* Cover Photo */}
       <div id="cover">
         <Button className="edit-cover-photo"><i className="fa-solid fa-camera"></i> Edit Cover Photo</Button>
