@@ -32,7 +32,7 @@ export default function Post ( { post } ) {
         <div>{formattedPostDate}</div>
       </Card.Header>
       <Card.Body>
-        <p>{post.description}</p>
+        <p className='m-0'>{post.description}</p>
         {post.images && post.images.map((image, index) => (
           <Card.Img key={index} src={image} alt={`Post image ${index + 1}`} />
         ))}
