@@ -13,7 +13,7 @@ export default function Post ( { post } ) {
     };
 
     fetchAuthorDetails();
-  }, [post.authorId]);
+  }, [post]);
   
   const formattedPostDate = moment(Number(post.date)).format("MMMM Do, YYYY");
 
