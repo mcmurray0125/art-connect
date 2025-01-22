@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { Container, Button, Nav, Image, Row, Col } from "react-bootstrap";
@@ -17,6 +17,7 @@ const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [userIsFollowing, setUserIsFollowing] = useState(false);
   
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -45,8 +46,42 @@ const Profile = () => {
       }
     };
 
+    const checkIfFollowing = async () => {
+      if (currentUser) {
+        const followingCollectionRef = collection(db, "users", currentUser.uid, "following");
+        const followingSnapshot = await getDocs(followingCollectionRef);
+        const followingList = followingSnapshot.docs.map(doc => doc.id);
+        setUserIsFollowing(followingList.includes(userId));
+      }
+    };
+
     fetchUser();
-  }, [userId]);
+    checkIfFollowing();
+  }, [userId, currentUser]);
+
+  const handleFollow = async () => {
+    try {
+      const followingDocRef = doc(db, "users", currentUser.uid, "following", userId);
+      await setDoc(followingDocRef, {
+        uid: userId,
+        displayName: userData.displayName,
+        profileImage: userData.profileImageLarge,
+      });
+      setUserIsFollowing(true);
+    } catch (error) {
+      console.error("Error following user:", error);
+    }
+  };
+
+  const handleUnfollow = async () => {
+    try {
+      const followingDocRef = doc(db, "users", currentUser.uid, "following", userId);
+      await deleteDoc(followingDocRef);
+      setUserIsFollowing(false);
+    } catch (error) {
+      console.error("Error unfollowing user:", error);
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (!userData) return <p>User not found</p>;
@@ -54,10 +89,9 @@ const Profile = () => {
   return (
     <Container fluid>
       <Row className="justify-content-center">
-        <Col lg={10}>
+        <Col xl={8} lg={9} md={10}>
           {/* Cover Photo */}
           <div id="cover">
-            <Button className="edit-cover-photo"><i className="fa-solid fa-camera"></i> Edit Cover Photo</Button>
             <img
               id="cover-photo"
               src={userData.coverPhoto || "src/assets/cover-photos/cover-1.jpg"}
@@ -89,16 +123,19 @@ const Profile = () => {
             </div>
             {/* Right: Buttons */}
             <div className="profile-header-buttons d-flex gap-2">
-              <Button>Edit Profile</Button>
-              <Button>Add to Story</Button>
+              {userIsFollowing ? (
+                <Button onClick={handleUnfollow}>Unfollow</Button>
+              ) : (
+                <Button onClick={handleFollow}>Follow</Button>
+              )}
             </div>
           </div>
           <div className="profile-links my-3">
-            <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid}>Posts</Nav.Link>
-            <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/about-me'}>About</Nav.Link>
-            <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/projects'}>Projects</Nav.Link>
-            <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/photos'}>Photos</Nav.Link>
-            <Nav.Link className="profile-link" as={NavLink} to={'/' + currentUser.uid + '/videos'}>Videos</Nav.Link>
+            <Nav.Link className="profile-link" as={NavLink} to={'/' + userData.uid}>Posts</Nav.Link>
+            <Nav.Link className="profile-link" as={NavLink} to={'/' + userData.uid + '/about-me'}>About</Nav.Link>
+            <Nav.Link className="profile-link" as={NavLink} to={'/' + userData.uid + '/projects'}>Projects</Nav.Link>
+            <Nav.Link className="profile-link" as={NavLink} to={'/' + userData.uid + '/photos'}>Photos</Nav.Link>
+            <Nav.Link className="profile-link" as={NavLink} to={'/' + userData.uid + '/videos'}>Videos</Nav.Link>
           </div>
           <NewPostCard userData={userData} currentUser={currentUser} onShowModal={handleShowModal}/>
           <div className="posts mt-3">
