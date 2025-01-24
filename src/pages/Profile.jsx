@@ -102,7 +102,7 @@ const Profile = () => {
               {/* Follower Info */}
               <div className="d-flex flex-column align-items-center align-items-md-start">
                 <h2 className="m-0">{userData.displayName}</h2>
-                <p className="m-0">{followerCount || 0} Followers</p>
+                <p className="m-0">{followerCount || 0} Follower{followerCount !== 1 && "s"}</p>
                 <div className="d-flex gap-1">
                   {followers?.slice(0, 10).map((follower, index) => (
                     <Image
