@@ -4,6 +4,7 @@ import { doc, getDoc, collection, getDocs, setDoc, deleteDoc } from "firebase/fi
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { Container, Button, Nav, Image, Row, Col } from "react-bootstrap";
+import { followUser, unfollowUser } from "../utilities/followUtils";
 
 import "../styles/profile.scss";
 import NewPostCard from "../components/profile/NewPostCard";
@@ -14,6 +15,8 @@ const Profile = () => {
   const { userId } = useParams();
   const { currentUser } = useAuth();
   const [userData, setUserData] = useState(null);
+  const [followers, setFollowers] = useState([]);
+  const [followerCount, setFollowerCount] = useState(0);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -36,6 +39,17 @@ const Profile = () => {
           const postsSnapshot = await getDocs(postsCollectionRef);
           const postsList = postsSnapshot.docs.map(doc => doc.data());
           setPosts(postsList);
+
+          // Fetch followers from the user's subcollection
+          const followersCollectionRef = collection(db, "users", userId, "followers");
+          const followersSnapshot = await getDocs(followersCollectionRef);
+          setFollowerCount(followersSnapshot.size);
+
+          const followersList = followersSnapshot.docs.map(doc => doc.data());
+          setFollowers(followersList);
+
+          // Check if current user is following the profile user
+          setUserIsFollowing(followersList.some(follower => follower.uid === currentUser.uid));
         } else {
           console.error("User not found");
         }
@@ -46,40 +60,20 @@ const Profile = () => {
       }
     };
 
-    const checkIfFollowing = async () => {
-      if (currentUser) {
-        const followingCollectionRef = collection(db, "users", currentUser.uid, "following");
-        const followingSnapshot = await getDocs(followingCollectionRef);
-        const followingList = followingSnapshot.docs.map(doc => doc.id);
-        setUserIsFollowing(followingList.includes(userId));
-      }
-    };
-
     fetchUser();
-    checkIfFollowing();
   }, [userId, currentUser]);
 
   const handleFollow = async () => {
-    try {
-      const followingDocRef = doc(db, "users", currentUser.uid, "following", userId);
-      await setDoc(followingDocRef, {
-        uid: userId,
-        displayName: userData.displayName,
-        profileImage: userData.profileImageLarge,
-      });
+    const success = await followUser(currentUser.uid, userId);
+    if (success) {
       setUserIsFollowing(true);
-    } catch (error) {
-      console.error("Error following user:", error);
     }
   };
 
   const handleUnfollow = async () => {
-    try {
-      const followingDocRef = doc(db, "users", currentUser.uid, "following", userId);
-      await deleteDoc(followingDocRef);
+    const success = await unfollowUser(currentUser.uid, userId);
+    if (success) {
       setUserIsFollowing(false);
-    } catch (error) {
-      console.error("Error unfollowing user:", error);
     }
   };
 
@@ -108,9 +102,9 @@ const Profile = () => {
               {/* Follower Info */}
               <div className="d-flex flex-column align-items-center align-items-md-start">
                 <h2 className="m-0">{userData.displayName}</h2>
-                <p className="m-0">{userData.followers?.length || 0} Followers</p>
+                <p className="m-0">{followerCount || 0} Followers</p>
                 <div className="d-flex gap-1">
-                  {userData.followers?.slice(0, 10).map((follower, index) => (
+                  {followers?.slice(0, 10).map((follower, index) => (
                     <Image
                       className="follower-image"
                       key={index}
