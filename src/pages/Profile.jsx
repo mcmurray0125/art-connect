@@ -4,7 +4,7 @@ import { doc, getDoc, collection, getDocs, setDoc, deleteDoc } from "firebase/fi
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { Container, Button, Nav, Image, Row, Col } from "react-bootstrap";
-import { followUser, unfollowUser, fetchFeaturedFollowers } from "../utilities/followUtils";
+import { followUser, unfollowUser, fetchFeaturedFollowers, getFollowingCount } from "../utilities/followUtils";
 
 import "../styles/profile.scss";
 import NewPostCard from "../components/profile/NewPostCard";
@@ -18,6 +18,7 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [followers, setFollowers] = useState([]);
   const [featuredFollowers, setFeaturedFollowers] = useState([]);
+  const [followingCount, setFollowingCount] = useState(0);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -49,6 +50,9 @@ const Profile = () => {
 
           const featuredFollowersList = await fetchFeaturedFollowers(followersList);
           setFeaturedFollowers(featuredFollowersList);
+
+          const followingCount = await getFollowingCount(userId);
+          setFollowingCount(followingCount);
 
           // Check if current user is following the profile user
           setUserIsFollowing(followersList.some(follower => follower.uid === currentUser.uid));
@@ -104,9 +108,9 @@ const Profile = () => {
               {/* Follower Info */}
               <div className="d-flex flex-column align-items-center align-items-md-start">
                 <h2 className="m-0">{userData.displayName}</h2>
-                <p className="m-0">{followers.length} Follower{followers.length !== 1 && "s"}</p>
                 <div className="d-flex gap-1">
-                  {featuredFollowers.map((follower, index) => (
+                  <p className="m-0">{followers.length} Follower{followers.length !== 1 && "s"}</p>
+                  {/* {featuredFollowers.map((follower, index) => (
                     <Image
                       className="follower-image"
                       key={index}
@@ -114,7 +118,19 @@ const Profile = () => {
                       alt={`Follower ${index + 1}`}
                       title={follower.displayName}
                     />
-                  ))}
+                  ))} */}
+                </div>
+                <div className="d-flex gap-1">
+                  <p className="m-0">{followingCount} Following</p>
+                  {/* {featuredFollowers.map((follower, index) => (
+                    <Image
+                      className="follower-image"
+                      key={index}
+                      src={follower.photoURL || avatarIcon}
+                      alt={`Follower ${index + 1}`}
+                      title={follower.displayName}
+                    />
+                  ))} */}
                 </div>
               </div>
             </div>

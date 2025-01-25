@@ -1,4 +1,4 @@
-import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, getDoc, getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase"; // Adjust the import based on your project structure
 
 export const followUser = async (currentUserUid, userId) => {
@@ -63,5 +63,16 @@ export const fetchFeaturedFollowers = async (followersList) => {
   } catch (error) {
     console.error("Error fetching featured followers:", error);
     return [];
+  }
+};
+
+export const getFollowingCount = async (userId) => {
+  try {
+    const followingCollectionRef = collection(db, "users", userId, "following");
+    const followingSnapshot = await getDocs(followingCollectionRef);
+    return followingSnapshot.size;
+  } catch (error) {
+    console.error("Error fetching following count:", error);
+    return 0;
   }
 };
