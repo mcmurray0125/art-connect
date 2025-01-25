@@ -1,4 +1,4 @@
-import { doc, setDoc, deleteDoc } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase"; // Adjust the import based on your project structure
 
 export const followUser = async (currentUserUid, userId) => {
@@ -38,5 +38,30 @@ export const unfollowUser = async (currentUserUid, userId) => {
   } catch (error) {
     console.error("Error unfollowing user:", error);
     return false;
+  }
+};
+
+export const fetchFeaturedFollowers = async (followersList) => {
+  try {
+    const featuredFollowers = await Promise.all(
+      followersList.slice(0, 8).map(async (follower) => {
+        const followerDocRef = doc(db, "users", follower.uid);
+        const followerDoc = await getDoc(followerDocRef);
+        if (followerDoc.exists()) {
+          return {
+            uid: follower.uid,
+            displayName: followerDoc.data().displayName,
+            photoURL: followerDoc.data().photoURL,
+          };
+        } else {
+          return null;
+        }
+      })
+    );
+
+    return featuredFollowers.filter(follower => follower !== null);
+  } catch (error) {
+    console.error("Error fetching featured followers:", error);
+    return [];
   }
 };
