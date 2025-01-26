@@ -28,22 +28,33 @@ body {
 body:has(#dark) {
     background-color: $dark-base !important;
     color: $dark-text !important;
-    #dark,
-    .navbar,
-    .drop-down-menu {
+
+    /* Dark Text */
+    a,
+    .navbar i,
+    input::placeholder {
+        color: $dark-text !important;
+    }
+    
+    #dark {
         background-color: $dark-base !important;
         color: $dark-text !important;
     }
 
-    .navbar i,
-    .profile-header a {
+    .navbar,
+    .dropdown-menu {
+        background-color: $dark-neutral-1 !important;
         color: $dark-text !important;
     }
 
+
     .post.card,
     .card-body,
-    .profile-header::before {
-        background-color: #555555;
+    .profile-header::before,
+    input,
+    .dropdown-item:hover,
+    .nav-link:hover {
+        background-color: $dark-neutral-2;
         color: $dark-text !important;
     }
 
