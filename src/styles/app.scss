@@ -17,3 +17,21 @@ body {
 .profile-image {
     background-color: #d9d9d9;
 }
+
+/* Dark Theme */
+body:has(#dark) {
+    #dark,
+    .navbar,
+    .navbar i {
+        background-color: #1a1a1a !important;
+        color: #f1f1f1 !important;
+    }
+
+    .post.card,
+    .card-body,
+    .profile-header::before {
+        background-color: #555555;
+        color: #f1f1f1 !important;
+    }
+
+}
