@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
@@ -92,10 +92,12 @@ const MyProfile = () => {
               <div>
                 <h2 className="m-0">{userData.displayName}</h2>
                 <div className="d-flex gap-1">
-                  <p className="m-0">{followers.length} Follower{followers.length !== 1 && "s"}</p>
+                  <Link to={`/${userId}/followers`}>
+                    {followers.length} Follower{followers.length !== 1 && "s"}
+                  </Link>
                 </div>
                 <div className="d-flex gap-1">
-                  <p className="m-0">{followingCount} Following</p>
+                  <Link to={`/${userId}/following`}>{followingCount} Following</Link>
                 </div>
               </div>
             </div>
