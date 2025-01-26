@@ -52,7 +52,9 @@ body:has(#dark) {
     .card-body,
     .profile-header::before,
     input,
+    textarea,
     .dropdown-item:hover,
+    .modal-content,
     .nav-link:hover {
         background-color: $dark-neutral-2;
         color: $dark-text !important;
