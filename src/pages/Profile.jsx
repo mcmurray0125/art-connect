@@ -151,7 +151,7 @@ const Profile = () => {
             <Nav.Link className="profile-link" as={NavLink} to={'/' + userData.uid + '/videos'}>Videos</Nav.Link>
           </div>
           <NewPostCard userData={userData} currentUser={currentUser} onShowModal={handleShowModal}/>
-          <div className="posts mt-3">
+          <div className="posts mt-3 d-flex flex-column gap-3">
             {posts.map((post, index) => (
               <Post key={index} post={post} />
             ))}
