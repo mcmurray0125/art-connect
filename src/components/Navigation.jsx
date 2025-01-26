@@ -1,12 +1,14 @@
 import { Image, Container, Nav, Navbar, NavDropdown, Form, FormControl } from 'react-bootstrap';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContent';
 import '../styles/navigation.scss'
 import logo from '../assets/brand/logo-large.png';
 import avatarIcon from '../assets/icons/avatar-icon.png';
 
 export default function Navigation() {
   const { logout, currentUser } = useAuth();
+  const { themePreference, setSpecificTheme } = useTheme();
   const navigate = useNavigate();
   
   async function handleLogout() {
@@ -78,26 +80,54 @@ export default function Navigation() {
               align="end"
             >
               {/* Profile Options */}
-              <NavDropdown.Item as={Link} to={'/' + currentUser?.uid || 'me'} className='fw-semibold'>
-                <Image
-                    src={currentUser?.photoURL || avatarIcon}
-                    roundedCircle
-                    className='profile-image'
-                    height={40}
-                    alt="Profile"
-                  />
-                  {currentUser?.displayName || 'My Profile'}
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/settings">
-                <i className="fa-solid fa-gear nav-icon"></i> Settings
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/display">
-                <i className="fa-solid fa-display nav-icon"></i> Display
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={handleLogout}>
-              <i className="fa-solid fa-door-open nav-icon"></i> Logout
-              </NavDropdown.Item>
+              <div className='tier-1'>
+                <NavDropdown.Item as={Link} to={'/' + currentUser?.uid || 'me'} className='fw-semibold'>
+                  <Image
+                      src={currentUser?.photoURL || avatarIcon}
+                      roundedCircle
+                      className='profile-image'
+                      height={40}
+                      alt="Profile"
+                    />
+                    {currentUser?.displayName || 'My Profile'}
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/settings">
+                  <i className="fa-solid fa-gear nav-icon"></i> Settings
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/display">
+                  <i className="fa-solid fa-display nav-icon"></i> Display
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={handleLogout}>
+                <i className="fa-solid fa-door-open nav-icon"></i> Logout
+                </NavDropdown.Item>
+              </div>
+              <div className='tier-2'>
+                <Form.Check
+                  type="radio"
+                  label="Light"
+                  name="theme"
+                  id="theme-light"
+                  checked={themePreference === 'light'}
+                  onChange={() => setSpecificTheme('light')}
+                />
+                <Form.Check
+                    type="radio"
+                    label="Dark"
+                    name="theme"
+                    id="theme-dark"
+                    checked={themePreference === 'dark'}
+                    onChange={() => setSpecificTheme('dark')}
+                />
+                <Form.Check
+                    type="radio"
+                    label="Device"
+                    name="theme"
+                    id="theme-device"
+                    checked={themePreference === 'device'}
+                    onChange={() => setSpecificTheme('device')}
+                />
+              </div>
             </NavDropdown>
           </div>
         </Container>

@@ -6,11 +6,11 @@ import './styles/utilities.scss'
 import { router } from './routes'
 
 function App() {
-  const { theme } = useTheme()
+  const { appliedTheme } = useTheme()
 
   return (
     <AuthProvider>
-      <div className='app' id={theme}>
+      <div className='app' id={appliedTheme}>
         <RouterProvider router={router}/>
       </div>
     </AuthProvider>
