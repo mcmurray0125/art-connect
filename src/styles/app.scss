@@ -1,3 +1,5 @@
+@import './_variables.scss';
+
 body {
     font-family: "Urbanist", serif !important;
     font-weight: 400 !important;
@@ -6,6 +8,10 @@ body {
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
 
+}
+
+.app {
+    min-height: 100dvh;
 }
 
 .user-image-small {
@@ -20,18 +26,25 @@ body {
 
 /* Dark Theme */
 body:has(#dark) {
+    background-color: $dark-base !important;
+    color: $dark-text !important;
     #dark,
     .navbar,
-    .navbar i {
-        background-color: #1a1a1a !important;
-        color: #f1f1f1 !important;
+    .drop-down-menu {
+        background-color: $dark-base !important;
+        color: $dark-text !important;
+    }
+
+    .navbar i,
+    .profile-header a {
+        color: $dark-text !important;
     }
 
     .post.card,
     .card-body,
     .profile-header::before {
         background-color: #555555;
-        color: #f1f1f1 !important;
+        color: $dark-text !important;
     }
 
 }
