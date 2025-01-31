@@ -3,7 +3,7 @@ import { Link, NavLink, useParams } from "react-router-dom";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
-import { Container, Button, Nav, Image, Row, Col } from "react-bootstrap";
+import { Container, Button, Nav, Image, Row, Col, Dropdown } from "react-bootstrap";
 import { fetchFeaturedFollowers, getFollowingCount } from "../utilities/followUtils";
 
 import "../styles/profile.scss";
@@ -74,7 +74,15 @@ const MyProfile = () => {
         <Col xl={8} lg={9} md={10}>
           {/* Cover Photo */}
           <div id="cover">
-            <Button className="edit-cover-photo"><i className="fa-solid fa-camera"></i> Edit Cover Photo</Button>
+            <Dropdown className="edit-cover-photo">
+              <Dropdown.Toggle variant="success" id="cover-photo-dropdown">
+              <i className="fa-solid fa-camera"></i> Edit Cover Photo
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1">Upload Photo</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Browse Recent Photos</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
             <img
               id="cover-photo"
               src={userData.coverPhoto || "src/assets/cover-photos/cover-1.jpg"}
@@ -85,10 +93,8 @@ const MyProfile = () => {
           <div className="profile-header d-flex align-items-center gap-3">
             {/* Left: Profile Photo and Follower Info */}
             <div className="d-flex align-items-center gap-3">
-              {/* Profile Photo */}
               <Image src={userData.profileImageLarge || avatarIcon} alt="Profile Image" className="profile-image"
               />
-              {/* Follower Info */}
               <div>
                 <h2 className="m-0">{userData.displayName}</h2>
                 <div className="d-flex gap-1">

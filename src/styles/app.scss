@@ -61,3 +61,7 @@ body:has(#dark) {
     }
 
 }
+
+.dropdown-toggle:after {
+    display: none !important;
+}
