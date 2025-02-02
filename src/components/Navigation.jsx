@@ -59,7 +59,7 @@ export default function Navigation() {
           </Navbar.Collapse>
 
           {/* Right Section */}
-          <div className="d-flex align-items-center justify-content-end gap-3 flex-1">
+          <div className="d-flex align-items-center justify-content-end gap-3 flex-1 end-links">
             <Nav.Link as={NavLink} to="/messages">
               <i className="fa-solid fa-comment-dots nav-icon"></i>
             </Nav.Link>
